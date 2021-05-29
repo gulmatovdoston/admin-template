@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "../../components/LoginForm";
 import { Card, Row, Col } from "antd";
-import { useSelector } from "react-redux";
+import VerifyForm from "../../components/VerifyForm";
 
 const backgroundStyle = {
   backgroundImage: "url(/img/others/img-17.jpg)",
@@ -9,8 +9,7 @@ const backgroundStyle = {
   backgroundSize: "cover",
 };
 
-const Login = (props) => {
-  const theme = useSelector((state) => state.theme.currentTheme);
+const Verify = (props) => {
   return (
     <div className="h-100" style={backgroundStyle}>
       <div className="container d-flex flex-column justify-content-center h-100">
@@ -19,16 +18,25 @@ const Login = (props) => {
             <Card>
               <div className="my-4">
                 <div className="text-center">
+                  {/* <img
+                    className="img-fluid"
+                    src={`/img/${
+                      theme === "light" ? "logo.png" : "logo-white.png"
+                    }`}
+                    alt=""
+                  /> */}
                   <h1>TeamHouz</h1>
                 </div>
                 <Row justify="center">
                   <Col xs={24} sm={24} md={20} lg={20}>
-                    <LoginForm {...props} />
+                    <VerifyForm {...props} />
                   </Col>
                 </Row>
                 <div className="text-center">
                   <p>
-                    <a href="/auth/verify">Verify your account</a>
+                    Already have an account?
+                    <a href="/auth/login"> Login</a>
+                    <a href="/auth/register"> Register</a>
                   </p>
                 </div>
               </div>
@@ -40,4 +48,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Verify;

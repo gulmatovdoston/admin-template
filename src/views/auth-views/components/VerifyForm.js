@@ -1,17 +1,11 @@
 import React from "react";
-import { Button, Form, Input, Divider, Alert } from "antd";
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Alert } from "antd";
+import { MailOutlined, UnlockOutlined, CheckOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
-export const LoginForm = (props) => {
-  const {
-    otherSignIn,
-    showForgetPassword,
-    onForgetPasswordClick,
-    showMessage,
-    message,
-  } = props;
+export const VerifyForm = (props) => {
+  const { otherSignIn, showForgetPassword, showMessage, message } = props;
 
   return (
     <>
@@ -42,7 +36,7 @@ export const LoginForm = (props) => {
           <Input prefix={<MailOutlined className="text-primary" />} />
         </Form.Item>
         <Form.Item
-          name="password"
+          name="verification_code"
           label={
             <div
               className={`${
@@ -51,29 +45,21 @@ export const LoginForm = (props) => {
                   : ""
               }`}
             >
-              <span>Password</span>
-              {showForgetPassword && (
-                <span
-                  onClick={() => onForgetPasswordClick}
-                  className="cursor-pointer font-size-sm font-weight-normal text-muted"
-                >
-                  Forget Password?
-                </span>
-              )}
+              <span>Verification Code</span>
             </div>
           }
           rules={[
             {
               required: true,
-              message: "Please input your password",
+              message: "Please enter your verification code ",
             },
           ]}
         >
-          <Input.Password prefix={<LockOutlined className="text-primary" />} />
+          <Input prefix={<UnlockOutlined className="text-primary" />} />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
-            Sign In
+            Verify
           </Button>
         </Form.Item>
         {otherSignIn}
@@ -83,15 +69,15 @@ export const LoginForm = (props) => {
   );
 };
 
-LoginForm.propTypes = {
+VerifyForm.propTypes = {
   otherSignIn: PropTypes.bool,
   showForgetPassword: PropTypes.bool,
   extra: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
-LoginForm.defaultProps = {
+VerifyForm.defaultProps = {
   otherSignIn: true,
   showForgetPassword: false,
 };
 
-export default LoginForm;
+export default VerifyForm;
