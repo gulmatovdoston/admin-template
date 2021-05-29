@@ -13,7 +13,6 @@ import {
 import { CopyOutlined } from "@ant-design/icons";
 import ColorPicker from "components/shared-components/ColorPicker";
 import CopyToClipboard from "react-copy-to-clipboard";
-import NavLanguage from "./NavLanguage";
 import {
   SIDE_NAV_LIGHT,
   NAV_TYPE_SIDE,
@@ -183,10 +182,6 @@ export const ThemeConfigurator = ({
             </Radio.Group>
           }
         />
-      </div>
-      <div className="mb-5">
-        <h4 className="mb-3 font-weight-bold">Locale</h4>
-        <ListOption name="Language:" selector={<NavLanguage configDisplay />} />
       </div>
       <div>
         <CopyToClipboard

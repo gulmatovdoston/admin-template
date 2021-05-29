@@ -2,22 +2,22 @@ import React from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import AppLayout from "layouts/app-layout";
-import AuthLayout from 'layouts/auth-layout';
-import AppLocale from "lang";
+import AuthLayout from "layouts/auth-layout";
 import { IntlProvider } from "react-intl";
-import { ConfigProvider } from 'antd';
-import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from 'configs/AppConfig'
-import useBodyClass from 'hooks/useBodyClass';
+import { ConfigProvider } from "antd";
+import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "configs/AppConfig";
+import useBodyClass from "hooks/useBodyClass";
 
 export const Views = (props) => {
-  const { locale, location, direction } = props;
-  const currentAppLocale = AppLocale[locale];
+  const { location, direction } = props;
+  // const currentAppLocale = AppLocale[locale];
   useBodyClass(`dir-${direction}`);
   return (
     <IntlProvider
-      locale={currentAppLocale.locale}
-      messages={currentAppLocale.messages}>
-      <ConfigProvider locale={currentAppLocale.antd} direction={direction}>
+    // locale={currentAppLocale.locale}
+    // messages={currentAppLocale.messages}
+    >
+      <ConfigProvider direction={direction}>
         <Switch>
           <Route exact path="/">
             <Redirect to={APP_PREFIX_PATH} />
@@ -26,18 +26,18 @@ export const Views = (props) => {
             <AuthLayout direction={direction} />
           </Route>
           <Route path={APP_PREFIX_PATH}>
-            <AppLayout direction={direction} location={location}/>
+            <AppLayout direction={direction} location={location} />
           </Route>
         </Switch>
       </ConfigProvider>
     </IntlProvider>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ theme, auth }) => {
-  const { locale, direction } =  theme;
+  const { direction } = theme;
   const { token } = auth;
-  return { locale, token, direction }
+  return { token, direction };
 };
 
 export default withRouter(connect(mapStateToProps)(Views));
