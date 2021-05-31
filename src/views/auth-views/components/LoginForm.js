@@ -17,7 +17,6 @@ export const LoginForm = (props) => {
     showMessage,
     hideAuthMessage,
     message,
-    token,
     allowRedirect,
     redirect,
   } = props;
@@ -36,7 +35,7 @@ export const LoginForm = (props) => {
     },
   });
   const auth = useSelector((state) => state.auth);
-  const token1 = auth && auth.accessToken;
+  const token = auth && auth.accessToken;
   const onSubmit = ({ email, ...rest }) => {
     login.mutate({ ...rest, email });
   };
@@ -105,7 +104,6 @@ export const LoginForm = (props) => {
         </Form.Item>
         {otherSignIn}
         {/* {extra} */}
-        <button onClick={() => console.log(token1)}>token</button>
       </Form>
     </>
   );

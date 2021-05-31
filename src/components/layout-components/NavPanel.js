@@ -1,10 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { SettingOutlined } from "@ant-design/icons";
 import { Drawer, Menu } from "antd";
 import ThemeConfigurator from "./ThemeConfigurator";
 import LogoutOutlined from "@ant-design/icons/lib/icons/LogoutOutlined";
 import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import { logout } from "../../redux/actions";
 import { DIR_RTL } from "constants/ThemeConstant";
 const NavPanel = ({ direction }) => {
@@ -34,9 +33,4 @@ const NavPanel = ({ direction }) => {
   );
 };
 
-const mapStateToProps = ({ theme }) => {
-  const { locale } = theme;
-  return { locale };
-};
-
-export default connect(mapStateToProps)(NavPanel);
+export default NavPanel;

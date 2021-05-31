@@ -31,13 +31,9 @@ function RouteInterceptor({ children, isAuthenticated, ...rest }) {
 export const Views = ({ location, direction }) => {
   const auth = useSelector((state) => state.auth);
   const token = auth && auth.accessToken;
-  // const currentAppLocale = AppLocale[locale];
   useBodyClass(`dir-${direction}`);
   return (
-    <IntlProvider
-    // locale={currentAppLocale.locale}
-    // messages={currentAppLocale.messages}
-    >
+    <IntlProvider>
       <ConfigProvider direction={direction}>
         <Switch>
           <Route exact path="/">
@@ -56,9 +52,9 @@ export const Views = ({ location, direction }) => {
 };
 
 const mapStateToProps = ({ theme, auth }) => {
-  const { locale, direction } = theme;
+  const { direction } = theme;
   const { token } = auth;
-  return { locale, direction, token };
+  return { direction, token };
 };
 
 export default withRouter(connect(mapStateToProps)(Views));

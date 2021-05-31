@@ -12,7 +12,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === CLEAR_ON_SIGNOUT) {
-    storage.removeItem("persist:waterCooler");
+    storage.removeItem("persist:teamHouz");
     state = undefined;
   }
   return appReducer(state, action);

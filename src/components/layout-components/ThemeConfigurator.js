@@ -47,7 +47,6 @@ export const ThemeConfigurator = ({
   navCollapsed,
   topNavColor,
   headerNavColor,
-  locale,
   currentTheme,
   toggleCollapsedNav,
   onNavTypeChange,
@@ -191,7 +190,6 @@ export const ThemeConfigurator = ({
             navCollapsed,
             topNavColor,
             headerNavColor,
-            locale,
             currentTheme,
             direction,
           })}
@@ -217,7 +215,6 @@ const mapStateToProps = ({ theme }) => {
     navCollapsed,
     topNavColor,
     headerNavColor,
-    locale,
     currentTheme,
     direction,
   } = theme;
@@ -227,7 +224,6 @@ const mapStateToProps = ({ theme }) => {
     navCollapsed,
     topNavColor,
     headerNavColor,
-    locale,
     currentTheme,
     direction,
   };
