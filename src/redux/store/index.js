@@ -1,30 +1,21 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import reducers from "../reducers";
-import createSagaMiddleware from "redux-saga";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import { createStore } from "redux";
 
-const sagaMiddleware = createSagaMiddleware();
+import rootReducer from "../../redux/reducers";
 
-const middlewares = [sagaMiddleware];
+const persistConfig = {
+  key: "teamhouz",
+  storage,
+};
 
-function configureStore(preloadedState) {
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(
-    reducers,
-    preloadedState,
-    composeEnhancers(applyMiddleware(...middlewares))
-  );
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-  if (module.hot) {
-    module.hot.accept("../reducers/index", () => {
-      const nextRootReducer = require("../reducers/index");
-      store.replaceReducer(nextRootReducer);
-    });
-  }
-
-  return store;
+if (process.env.NODE_ENV === "development") {
+  // middlewares.push(logger);
 }
 
-const store = configureStore();
+export const store = createStore(persistedReducer, {});
 
+export const persistor = persistStore(store);
 export default store;

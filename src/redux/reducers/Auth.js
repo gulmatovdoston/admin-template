@@ -1,83 +1,41 @@
 import {
-	AUTH_TOKEN,
-	AUTHENTICATED,
-	SHOW_AUTH_MESSAGE,
-	HIDE_AUTH_MESSAGE,
-	SIGNOUT_SUCCESS,
-	SIGNUP_SUCCESS,
-	SHOW_LOADING,
-	SIGNIN_WITH_GOOGLE_AUTHENTICATED,
-  SIGNIN_WITH_FACEBOOK_AUTHENTICATED
-} from '../constants/Auth';
+  CLEAR_ON_SIGNOUT,
+  REFRESH_ACCESS_TOKEN,
+  SET_AUTH_CREDENTIALS,
+  SET_AUTH_TOKENS,
+} from "../constants/Auth";
 
-const initState = {
-  loading: false,
-  message: '',
-  showMessage: false,
-  redirect: '',
-  token: localStorage.getItem(AUTH_TOKEN),
-}
+const INITIAL_STATE = {
+  email: "",
+  position: "",
+  accessToken: "",
+  refreshToken: "",
+  admin_id: "",
+};
 
-const auth = (state = initState, action) => {
-	switch (action.type) {
-		case AUTHENTICATED:
-			return {
-				...state,
-				loading: false,
-				redirect: '/',
-				token: action.token
-			}
-		case SHOW_AUTH_MESSAGE: 
-			return {
-				...state,
-				message: action.message,
-				showMessage: true,
-				loading: false
-			}
-		case HIDE_AUTH_MESSAGE: 
-			return {
-				...state,
-				message: '',
-				showMessage: false,
-			}
-		case SIGNOUT_SUCCESS: {
-			return {
-				...state,
-				token: null,
-				redirect: '/',
-				loading: false
-			}
-		}
-		case SIGNUP_SUCCESS: {
-			return {
-			  ...state,
-			  loading: false,
-			  token: action.token
-			}
-		}
-		case SHOW_LOADING: {
-			return {
-				...state,
-				loading: true
-			}
-		}
-		case SIGNIN_WITH_GOOGLE_AUTHENTICATED: {
-			return {
-				...state,
-				loading: false,
-				token: action.token
-			}
-		}
-		case SIGNIN_WITH_FACEBOOK_AUTHENTICATED: {
-			return {
-				...state,
-				loading: false,
-				token: action.token
-			}
-		}
-		default:
-			return state;
-	}
-}
-
-export default auth
+export default (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case SET_AUTH_CREDENTIALS:
+      return {
+        ...state,
+        email: action.payload.email,
+        position: action.payload.position,
+        admin_id: action.payload.admin_id,
+      };
+    case SET_AUTH_TOKENS:
+      return {
+        ...state,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      };
+    case REFRESH_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.payload,
+      };
+    case CLEAR_ON_SIGNOUT:
+      return INITIAL_STATE;
+    default:
+      return state;
+  }
+};
