@@ -28,11 +28,9 @@ function RouteInterceptor({ children, isAuthenticated, ...rest }) {
   );
 }
 
-export const Views = (props) => {
-  const { location, direction } = props;
+export const Views = ({ location, direction }) => {
   const auth = useSelector((state) => state.auth);
   const token = auth && auth.accessToken;
-  console.log(token);
   // const currentAppLocale = AppLocale[locale];
   useBodyClass(`dir-${direction}`);
   return (

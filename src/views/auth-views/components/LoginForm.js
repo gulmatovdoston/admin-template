@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useMutation } from "react-query";
 import { setAuthCredentials, setAuthTokens } from "../../../redux/actions";
 import { requests } from "services/requests";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "utils/showNotification";
 import { useHistory } from "react-router";
 export const LoginForm = (props) => {
@@ -35,6 +35,8 @@ export const LoginForm = (props) => {
       showNotification("error", "Error with Login");
     },
   });
+  const auth = useSelector((state) => state.auth);
+  const token1 = auth && auth.accessToken;
   const onSubmit = ({ email, ...rest }) => {
     login.mutate({ ...rest, email });
   };
@@ -103,6 +105,7 @@ export const LoginForm = (props) => {
         </Form.Item>
         {otherSignIn}
         {/* {extra} */}
+        <button onClick={() => console.log(token1)}>token</button>
       </Form>
     </>
   );

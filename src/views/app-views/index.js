@@ -8,10 +8,13 @@ export const AppViews = () => {
     <Suspense fallback={<Loading cover="content" />}>
       <Switch>
         <Route
-          path={`${APP_PREFIX_PATH}/home`}
-          component={lazy(() => import(`./super-admin-views/home`))}
+          path={`${APP_PREFIX_PATH}/companies`}
+          component={lazy(() => import(`./super-admin-views/companies`))}
         />
-        <Redirect from={`${APP_PREFIX_PATH}`} to={`${APP_PREFIX_PATH}/home`} />
+        <Redirect
+          from={`${APP_PREFIX_PATH}`}
+          to={`${APP_PREFIX_PATH}/companies`}
+        />
       </Switch>
     </Suspense>
   );

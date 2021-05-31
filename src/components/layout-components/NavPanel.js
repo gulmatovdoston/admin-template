@@ -1,50 +1,42 @@
-import React, { Component } from 'react';
-import { SettingOutlined } from '@ant-design/icons';
-import { Drawer, Menu } from 'antd';
-import ThemeConfigurator from './ThemeConfigurator';
+import React, { Component, useState } from "react";
+import { SettingOutlined } from "@ant-design/icons";
+import { Drawer, Menu } from "antd";
+import ThemeConfigurator from "./ThemeConfigurator";
+import LogoutOutlined from "@ant-design/icons/lib/icons/LogoutOutlined";
+import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
-import { DIR_RTL } from 'constants/ThemeConstant';
+import { logout } from "../../redux/actions";
+import { DIR_RTL } from "constants/ThemeConstant";
+const NavPanel = ({ direction }) => {
+  const [visible, setVisible] = useState();
+  const dispatch = useDispatch();
 
-export class NavPanel extends Component {
-	state = { visible: false };
-
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-	};
-	
-	render() {
-		return (
-      <>
-        <Menu mode="horizontal">
-          <Menu.Item onClick={this.showDrawer}>
-            <SettingOutlined className="nav-icon mr-0" />
-          </Menu.Item>
-        </Menu>
-        <Drawer
-          title="Theme Config"
-          placement={this.props.direction === DIR_RTL ? 'left' : 'right'} 
-          width={350}
-          onClose={this.onClose}
-          visible={this.state.visible}
-        >
-          <ThemeConfigurator/>
-        </Drawer>
-      </>
-    );
-	}
-}
+  return (
+    <>
+      <Menu mode="horizontal">
+        <Menu.Item onClick={() => dispatch(logout())}>
+          <LogoutOutlined color="#fff" />
+        </Menu.Item>
+        <Menu.Item onClick={() => setVisible(true)}>
+          <SettingOutlined className="nav-icon mr-0" />
+        </Menu.Item>
+      </Menu>
+      <Drawer
+        title="Theme Config"
+        placement={direction === DIR_RTL ? "left" : "right"}
+        width={350}
+        onClose={() => setVisible(false)}
+        visible={visible}
+      >
+        <ThemeConfigurator />
+      </Drawer>
+    </>
+  );
+};
 
 const mapStateToProps = ({ theme }) => {
-  const { locale } =  theme;
-  return { locale }
+  const { locale } = theme;
+  return { locale };
 };
 
 export default connect(mapStateToProps)(NavPanel);
