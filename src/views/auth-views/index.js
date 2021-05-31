@@ -12,11 +12,11 @@ export const AppViews = () => {
           component={lazy(() => import(`./authentication/login`))}
         />
         <Route
-          path={`${AUTH_PREFIX_PATH}/register-1`}
+          path={`${AUTH_PREFIX_PATH}/register`}
           component={lazy(() => import(`./authentication/register`))}
         />
         <Route
-          path={`${AUTH_PREFIX_PATH}/error-1`}
+          path={`${AUTH_PREFIX_PATH}/error`}
           component={lazy(() => import(`./error-page`))}
         />
         <Route

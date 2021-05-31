@@ -1,18 +1,45 @@
-import React from "react";
-import { Button, Form, Input, Divider, Alert } from "antd";
+import React, { useEffect } from "react";
+import { Button, Form, Input, Alert } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-
+import { useMutation } from "react-query";
+import { setAuthCredentials, setAuthTokens } from "../../../redux/actions";
+import { requests } from "services/requests";
+import { useDispatch, useSelector } from "react-redux";
+import { showNotification } from "utils/showNotification";
+import { useHistory } from "react-router";
 export const LoginForm = (props) => {
   const {
     otherSignIn,
     showForgetPassword,
     onForgetPasswordClick,
     showMessage,
+    hideAuthMessage,
     message,
+    token,
+    allowRedirect,
+    redirect,
   } = props;
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const login = useMutation(requests.auth.login, {
+    onSuccess: ({ data }) => {
+      // console.log(data);
+      dispatch(setAuthTokens(data));
+      dispatch(setAuthCredentials(data));
+      history.push("/");
+    },
+    onError: () => {
+      showNotification("error", "Error with Login");
+    },
+  });
+  const auth = useSelector((state) => state.auth);
+  const token1 = auth && auth.accessToken;
+  const onSubmit = ({ email, ...rest }) => {
+    login.mutate({ ...rest, email });
+  };
   return (
     <>
       <motion.div
@@ -24,7 +51,7 @@ export const LoginForm = (props) => {
       >
         <Alert type="error" showIcon message={message}></Alert>
       </motion.div>
-      <Form layout="vertical" name="login-form">
+      <Form layout="vertical" name="login-form" onFinish={onSubmit}>
         <Form.Item
           name="email"
           label="Email"
@@ -78,6 +105,7 @@ export const LoginForm = (props) => {
         </Form.Item>
         {otherSignIn}
         {/* {extra} */}
+        <button onClick={() => console.log(token1)}>token</button>
       </Form>
     </>
   );

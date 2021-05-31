@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import AppLayout from "layouts/app-layout";
 import AuthLayout from "layouts/auth-layout";
 import { IntlProvider } from "react-intl";
@@ -8,8 +8,29 @@ import { ConfigProvider } from "antd";
 import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "configs/AppConfig";
 import useBodyClass from "hooks/useBodyClass";
 
-export const Views = (props) => {
-  const { location, direction } = props;
+function RouteInterceptor({ children, isAuthenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        isAuthenticated ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: AUTH_PREFIX_PATH,
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+export const Views = ({ location, direction }) => {
+  const auth = useSelector((state) => state.auth);
+  const token = auth && auth.accessToken;
   // const currentAppLocale = AppLocale[locale];
   useBodyClass(`dir-${direction}`);
   return (
@@ -25,9 +46,9 @@ export const Views = (props) => {
           <Route path={AUTH_PREFIX_PATH}>
             <AuthLayout direction={direction} />
           </Route>
-          <Route path={APP_PREFIX_PATH}>
+          <RouteInterceptor path={APP_PREFIX_PATH} isAuthenticated={token}>
             <AppLayout direction={direction} location={location} />
-          </Route>
+          </RouteInterceptor>
         </Switch>
       </ConfigProvider>
     </IntlProvider>
@@ -35,9 +56,9 @@ export const Views = (props) => {
 };
 
 const mapStateToProps = ({ theme, auth }) => {
-  const { direction } = theme;
+  const { locale, direction } = theme;
   const { token } = auth;
-  return { token, direction };
+  return { locale, direction, token };
 };
 
 export default withRouter(connect(mapStateToProps)(Views));
