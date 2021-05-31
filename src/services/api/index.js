@@ -1,11 +1,12 @@
 import axios from "axios";
-import { API_BASE_URL } from "configs/AppConfig";
 import _ from "lodash";
-
+import { API_BASE_URL } from "configs/AppConfig";
 import { logout, refreshAccessToken } from "../../redux/actions";
 
 let isAlreadyFetchingAccessToken = false;
 let subscribers = [];
+const config = {};
+config.URL = API_BASE_URL;
 
 const onAccessTokenFetched = (access_token) => {
   subscribers = subscribers.filter((callback) => callback(access_token));
@@ -16,7 +17,7 @@ const addSubscriber = (callback) => {
 };
 
 const request = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: config.URL,
 });
 
 const subscribe = (store) => {

@@ -1,14 +1,18 @@
+import { Table } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useQuery } from "react-query";
+import company from "services/requests/company";
 
 const Home = () => {
-  const auth = useSelector((state) => state.auth);
-  const token = auth && auth.accessToken;
-
+  // const { values, merge } = useQueryParams();
+  // const [companyStatus, setCompanyStatus] = useState("");
+  // const [name, setName] = useState((values && values.name) || "");
+  // const [page, setPage] = useState((values && values.page) || 1);
+  const { data, isLoading } = useQuery(["companyList"], () => company.list());
+  console.log(data);
   return (
     <div>
-      Home component works!
-      <button onClick={() => console.log(token)}>token</button>
+      <Table />
     </div>
   );
 };
